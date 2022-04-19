@@ -102,6 +102,9 @@ select {
     --button-bgcolor: #F5F4FA;
     --icon-color: #AFB1B8;
     --bgcolor-icon-footer: rgba(255, 255, 255, 0.1);
+    --backdrop-color:rgba(0, 0, 0, 0.2);
+    --bgcolor-lessons-info:rgba(47, 48, 58, 0.8);
+    --accent-bgcolor:rgba(33, 150, 243, 0.9);
 }
 a{
     text-decoration: none;
@@ -162,7 +165,18 @@ body{
 }
 
 .current{
+    position: relative;
     color: var(--accent-color)
+}
+.current::after{
+    position:absolute;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    bottom: 0;
+    border-radius: 2px;
+    background-color: var(--accent-color);
 }
 .header ul :hover, .header ul :focus{
     color: var(--accent-color)
@@ -217,13 +231,18 @@ main{
 }
 /* hero */
 .hero{
-background-image: linear-gradient(to right, rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4)), 
-url(../img/bgimg.jpg);
-background-repeat: no-repeat;
-width: 1600px;
-height: 600px;
-margin: 0 auto;
+    background-image: linear-gradient(to right, rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4)), 
+    url(../img/bgimg.jpg);
+    background-repeat: no-repeat;
+    width: 1600px;
+    height: 600px;
+    margin: 0 auto;
     padding: 200px 0;
+}
+.feature-tittle{
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 .hero-title {
     color: var(--white);
@@ -261,7 +280,51 @@ margin: 0 auto;
     
     display: block;
 }
+.backdrop{
+    position: fixed;
+    background-color: var(--backdrop-color);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
+}
+.is-hidden{
+    opacity: 0;
+    pointer-events: none;
+}
+.modal-hero-btn{
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 528px;
+height: 581px;
+background-color: var(--white);
+}
+.modal-close{
+    display: flex;    
+    margin-left: auto;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+    margin-right: 8px;
+
+    
+
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12),
+    0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border-radius: 50%;
+}
+.modal-close-svg{
+ 
+
+    margin: auto;
+}
 /*Особенности  */
 .feature-list{
     display: flex;
@@ -313,7 +376,22 @@ margin: 0 auto;
 .lessons-list li:not(:last-child){
     margin-right: 30px;
 }
+.lessons-list li{
+    position: relative;
+}
+.lessons-info{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    height: 70px;
+    width: 100%;
+    bottom: 0;
+
+    background-color: var(--bgcolor-lessons-info);
+    color: var(--white);
+}
 
 /* Наша команда */
 .list-item-worker:not(:last-child){
@@ -449,29 +527,17 @@ margin: 0 auto;
     font-size: 14px;
     line-height: 1.71;
 }
-.adress-offline{
+.adress-offline {
+    display: block;
     color: var(--white);
 
     margin-top: 20px;
 }
-.adress-online{
+.adress-online {
+    display: block;
     color: var(--mail-tel-color);
 
     margin-top: 9px;
-}
-.icon-list-footer {
-    display: flex;
-}
-
-.icon-link-footer-svg {
-    width: 20px;
-    height: 20px;
-}
-
-.icon-link-footer {
-    width: 44px;
-    height: 44px;
-    background-color: teal;
 }
 
 .general-container-footer {
@@ -507,6 +573,7 @@ margin: 0 auto;
 
 
 /* main portfolio */
+/* Кнопки поиска */
 .list-search{
     display: flex;
     justify-content: center;
@@ -527,6 +594,7 @@ margin: 0 auto;
     font-size: 16px;
     line-height: 1.62;
     letter-spacing: 0.03em;
+    cursor: pointer;
 
     padding: 6px 22px;
 }
@@ -534,11 +602,13 @@ margin: 0 auto;
     background-color: var(--accent-color);
     color: var(--white);
 }
+/* Карточки продуктов */
 .portfolio-card{
     background-color: var(--white);
     
     width: calc((100% - 60px) / 3);
     border: 1px solid #EEEEEE;
+
    
     margin-right: 30px;
     margin-bottom: 30px;
@@ -561,7 +631,7 @@ margin: 0 auto;
     line-height: 2.00;
     letter-spacing: 0.06em;
 
-    margin-top: 20px;
+
 }
 .card-info{
     color: var(--Secondary-text-color);
@@ -570,4 +640,41 @@ margin: 0 auto;
     line-height: 1.88;
 
     margin-top: 4px;
+}
+.partfolio-card-overlay{
+    position: relative;
+
+
+}
+.portfolio-card-name{
+    padding: 20px 24px;
+}
+.card-text{
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    overflow: auto;
+}
+.portfolio-card:hover {
+
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12),
+    0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+
+}
+.portfolio-card:hover .card-text{
+
+    display: flex;
+
+
+    padding: 63px 24px;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 1;
+    color: var(--white);
+    background-color: var(--accent-bgcolor);
+    font-size: 18px;
+    line-height: 1.55;
 }
